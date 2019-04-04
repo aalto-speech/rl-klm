@@ -1,10 +1,11 @@
 RL-KLM DEMO: FORM FILLING
 
-This demonstration shows how RL-KLM can be used to predict task completion time for form filling task. 
+This demonstration shows how RL-KLM can be used to predict task completion time for form filling task. Reinforcement Learning agent learns a policy to complete the form filling task by minimizing the task completion time. The learned policy is then used to form a KLM model to estimate the task completion time.
+
 Demo app works only for MacOS.
 
-RL-KLM code author: Katri Leino (katri.k.leino a aalto.fi). Aalto university.
-The demo app author: Kashyap Todi. Aalto university.
+RL-KLM code author: Katri Leino (katri.k.leino a aalto.fi), Aalto university.
+The demo app author: Kashyap Todi, Aalto university.
 
 
 
@@ -36,7 +37,7 @@ CHANGING LAYOUT
 CALCULATING TASK COMPLETION TIME
 - Click compute from right bottom corner.
 - Red line shows the path RL-KLM generated for form filling.
-- Task completion time is shown at the bottom.
+- Task completion time is shown at the bottom. Formed KLM model sums the time estimates of the point and click operators required to estimate time completion time.
 
 
 ----------------------------
