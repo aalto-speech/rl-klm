@@ -2,4 +2,6 @@
 demo/rl-klm_demo/*.txt
 
 # Ignore
+__pycache__/
 *.pyc
+demo/rl-klm_demo/*.pyc
