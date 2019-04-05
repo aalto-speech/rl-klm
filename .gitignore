@@ -1,0 +1,5 @@
+# Ignore demo's input and output files
+demo/rl-klm_demo/*.txt
+
+# Ignore
+*.pyc
