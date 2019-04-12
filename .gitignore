@@ -1,7 +1,11 @@
 # Ignore demo's input and output files
 demo/rl-klm_demo/*.txt
 
+# Ignore case3 input and output files
+case3_form_filling/*.txt
+
 # Ignore
 __pycache__/
 *.pyc
 demo/rl-klm_demo/*.pyc
+case3_form_filling/*.pyc
