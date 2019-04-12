@@ -12,8 +12,17 @@ Coming in April 2019.
   * Evaluating multimodal user interface
   * Evaluating form
   * Optimizing remote controller
+  * Updating to Python3
 
 
 Contact: Katri Leino ( katri.k.leino a aalto.fi )
+
+
+# Requirements
+
+* Python 2.7
+* PyBrain library (http://pybrain.org)
+
+
 
 
