@@ -18,7 +18,7 @@ Run the code
 ## Input and Output
 - ```input.txt``` defines the locations of the form item: 
   - ```item_id x_coordinate y_coordinate width height```
-  - note: width and height have not yet been implemented to the model.
+  - note: width and height are not yet read from the file. Can be changed in ```initialParams.py```. 
 - RL-KLM code returns best path to file ```best_path.txt```
     - gives item ids in the path order.
     - task completion time is in the last row.
