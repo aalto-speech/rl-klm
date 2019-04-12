@@ -1,4 +1,4 @@
-# rl-klm
+# KLM modeling with Reinforcement Learning
 
 RL-KLM automates KLM modeling with Reinforcement Learning for User Interface evaluation. KLM models are suited to evaluate point-and-click type of the user interfaces. In our approach Reinforcement Learning agent learns task policies which minimize the task completion time. The learned task policies are then used to form a KLM model to estimate the total task completion time for the user interface.
 
