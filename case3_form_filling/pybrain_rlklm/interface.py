@@ -1,5 +1,5 @@
 __author__ = 'Thomas Rueckstiess, ruecksti@in.tum.de'
-# Edited: Checks allowed actions before selecting action.
+# EDITED: Checks allowed actions before selecting action.
 
 from pybrain.utilities import abstractMethod
 from pybrain.structure.modules import Table, Module, TanhLayer, LinearLayer, BiasUnit
@@ -39,7 +39,6 @@ class ActionValueTable(Table, ActionValueInterface):
         ParameterContainer.__init__(self, numStates * numActions)
         self.numRows = numStates
         self.numColumns = numActions
-        #self.allowed_actions = range(numActions) 
         self.env = env
 
     @property
@@ -56,7 +55,8 @@ class ActionValueTable(Table, ActionValueInterface):
         """ Return the action with the maximal value for the given state. """
         values = self.params.reshape(self.numRows, self.numColumns)[state, :].flatten()
         
-        # check allowed actions
+        # Check allowed actions
+        # Only select states which have not been visited before.
         allowed_actions =  np.where(np.array(self.env.visited_states) == 0)[0] 
 
         action = where(values[allowed_actions] == max(values[allowed_actions]))[0]
@@ -73,7 +73,6 @@ class ActionValueTable(Table, ActionValueInterface):
 
     def setAllowedActions(self, actionsmatrix):
         """ Set which actions are allowed. Affects to getMaxAction """
-        # TODO: oikeaan muotoon input: [1,2]
         self.allowed_actions = actionsmatrix
 
 

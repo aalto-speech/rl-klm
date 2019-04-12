@@ -1,5 +1,5 @@
 __author__ = "Thomas Rueckstiess, ruecksti@in.tum.de"
-# Changes: Only select allowed actions in exploration.
+# EDITED: Only select allowed actions in exploration.
 
 from scipy import random, array
 import numpy as np
@@ -7,8 +7,6 @@ import numpy as np
 from pybrain.rl.explorers.discrete.discrete import DiscreteExplorer
 from pybrain.rl.environments.environment import Environment
 
-
-# Add params
 
 class EpsilonGreedyExplorer(DiscreteExplorer):
     """ A discrete explorer, that executes the original policy in most cases,
