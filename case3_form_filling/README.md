@@ -12,21 +12,26 @@ See more information from the paper.
 
 # Code structure
 
+Run the code 
+``` python main_case3.py ```
+
 ## Input and Output
-- input.txt defines the locations of the form item: 
-  - item_id x_coordinate y_coordinate width height
+- ```input.txt``` defines the locations of the form item: 
+  - ```item_id x_coordinate y_coordinate width height```
   - note: width and height have not yet been implemented to the model.
-- RL-KLM code returns best path to file "best_path.txt"
+- RL-KLM code returns best path to file ```best_path.txt```
     - gives item ids in the path order.
     - task completion time is in the last row.
 
 ## Codes
 
-- **initialParams.py*** : 
-- **main_case3.py** : 
-- **RL_optimizer.py** : 
-- **UIEnv.py** :
-- **evaluation.py** : 
+- ```initialParams.py``` : Defines the KLM parameters.
+  - ```self.fitts_a``` and ```self.fitts_b``` are parameters for Fitts' Law.
+  - note: some parameters are used only in other cases.
+- ```main_case3.py``` : Main file. 
+- ```RL_optimizer.py``` : Defines RL parameters and trains the RL agent for the task.
+- ```UIEnv.py``` : Defines the environment and actions.
+- ```evaluation.py``` : Returns the KLM estimate based on the given policy.
 
 ## PyBrain library modifications
-Modified PyBrain files are located in pybrain_rlklm directory.
+Modified PyBrain files are located in ```pybrain_rlklm``` directory.
