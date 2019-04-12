@@ -10,20 +10,18 @@ from initialParams import initializeParams
 
 
 # KLM  Evaluation function
-# Assumptions: getReward returns ID value for Fitts' law. (easy to break, always check)
-# Output: KLM MT
+#  getReward returns ID value for Fitts' law. (easy to break, always check)
+# Output: klm estimate (seconds), best path
 
-def evaluation(av_table, ui_env, task, goal, params, batch_num, logging):
+def evaluation(av_table, ui_env, task, goal, params):
     time_klm = 0
-    # Define initial state -- evaluate all initial states.
-    initial_state = 0
 
     # Set environment parameters
     ui_env.reset()
     task.reset()
     current_state = ui_env.getSensors()
 
-    #save best path
+    # Save best path
     best_path = [0] # start with starting point
 
     steps = 0
@@ -34,15 +32,15 @@ def evaluation(av_table, ui_env, task, goal, params, batch_num, logging):
         best_path.append(action+1)
 
         task.performAction(action)
+        
         # Remove used action
         allowed_actions =  np.where(np.array(task.env.visited_states) == 0)[0]
         av_table.setAllowedActions(allowed_actions) # Set allowed actions
+        
         ID = -task.getReward()
         time_klm = time_klm + params.fitts_a + params.fitts_b*ID + 0.31*100
         current_state = ui_env.getSensors()
         task.prev_action = action
-
-
 
         # For optimization
         if steps > 10: 
@@ -59,8 +57,6 @@ def evaluation(av_table, ui_env, task, goal, params, batch_num, logging):
 
         if task.isFinished():
             break
-
-        # Check if goal is true
 
     best_path.append(ui_env.num_of_actions) # Last action is the confirmation
 

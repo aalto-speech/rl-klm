@@ -3,31 +3,22 @@
 # Task: Visit all states.
 # A state represents a form item and there is unique action for each item.
 
-import sys
-import os
-import operator as op
 import numpy as np
-import math
-import random
-import itertools
+
 from RL_optimizer import rl_optimizer
 from initialParams import initializeParams
-import time
-import logging
 
 
-############################################
+###################
 # LOAD PARAMETERS
 input_file = open('input.txt', 'r')
 input_data = input_file.read()
-
 input_file.close()
 
 lines = input_data.split('\n')
 
 num_items = np.size(lines)
 
-#tags = []*num_items
 tags = []
 x_coord = [0]*num_items
 y_coord = [0]*num_items
@@ -46,40 +37,18 @@ for line in lines:
 
     idx += 1
 
-############################################
+###################
 # Initialize parameters
-batch_num = 1
 params = initializeParams(x_coord, y_coord, widths, heights)
+num_action = params.num_states-1
 
-
-##############################################
-# Saving policy
-policies = [([])]*params.num_states
-
-#############################################
-# For saving toplist
-objective = -1
-top_UI = params.top*[] #([([],[],policies,100)])*params.top
-top_UI_summary = [] # []*params.top #np.zeros((params.top,3))
-multi_obj_topUI = [[],[],[]]
-
-
-##########################################
-
-# TODO: READ UI from the text file uis/remote.txt
+# Not needed in case3
 UI = np.array([[0,1,1,1], [0,0,1,1], [0,1,0,1], [0,1,1,0]])
 
 
-num_action = params.num_states-1 # Number of unique buttons
-
-
-#############################
+###################
 # Call RL code
-objective, top_UI, best_actions, best_path, klm_value = rl_optimizer(UI, num_action, top_UI, params, batch_num, logging)
-
-
-if objective == -1: # If not learned, skip all button combinations
-    print "Skipping this UI"
+best_path, klm_value = rl_optimizer(UI, num_action, params)
 
 
 ###################

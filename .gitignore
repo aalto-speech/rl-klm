@@ -9,3 +9,4 @@ __pycache__/
 *.pyc
 demo/rl-klm_demo/*.pyc
 case3_form_filling/*.pyc
+case3_form_filling/pybrain_rlklm/*.pyc

@@ -2,7 +2,7 @@
 import time
 import numpy as np
 
-# Class is used to keep important parameters so that they are easy to change from one file.
+# Class is used to keep KLM parameters.
 class initializeParams:
 
     def __init__(self, x_coord, y_coord, widths, heights):
@@ -25,12 +25,10 @@ class initializeParams:
         self.init_position = [x_coord[0], y_coord[0]]
         self.goal_position = [x_coord[self.num_states-1], y_coord[self.num_states-1]]
         self.grid = [x_coord[1:self.num_states], y_coord[1:self.num_states]] # 
-        #self.grid = [[0, 0., 6.5, 13., 0., 6.5, 13., 0., 6.5, 13.],[0, 0., 0., 0., 2., 2., 2., 4., 4. ,4.]] # X, Y
         self.fitts_a = 54.38 #1033 #54.38
         self.fitts_b = 14.62 #96 #14.62
 
-
-        # Sensor errors
+        # Sensor errors 
         self.sensor_errors = [0, 0, 0] # Only single modality, hard coded into perform_action()
         self.confusion_error = [0, 0, 0] # Does not currently work
         
@@ -39,6 +37,9 @@ class initializeParams:
 
         # Initial penalty for moving hand to control the remote
         self.mod_penalty = 0
+
+        #############
+        # Optimization
 
         # The number of best UIs that will be saved into text file after the optimization
         self.top = 1
@@ -53,12 +54,4 @@ class initializeParams:
         self.objectives = [[1,1,0],[0,1,1],[1,1,1]] #multi-objective
         
 
-
-
-
-    # 
-    def setSensorErrors(self, e_t, e_g, e_s):
-        self.sensor_errors[0] = float(e_t)
-        self.sensor_errors[1] = float(e_g)
-        self.sensor_errors[2] = float(e_s)
 

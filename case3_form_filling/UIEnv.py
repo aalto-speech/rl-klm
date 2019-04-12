@@ -13,8 +13,8 @@ class UI():
     	self.current_state = self.initState
         self.actionmatrix = Actionmatrix # allowed actions
         self.num_of_states = NumStates
-        self.num_of_actions = NumActions # assumes all numbers are used
-        self.visited_states = [0]*self.num_of_actions # chance also reset
+        self.num_of_actions = NumActions
+        self.visited_states = [0]*self.num_of_actions
         self.visited_states[self.num_of_actions-1] = 1
         self.used_actions = [0]*self.num_of_actions
         
@@ -22,17 +22,14 @@ class UI():
         self.sensor_errors = SensorErrors
         self.confusion_error = ConfusionError
         self.penalties = Penalties
-        self.bad_Action = 0
         self.sys_delay = 0
-        self.exit_state = False
 
-        self.width = 6.
         self.grid = ItemGrid
         self.dimensions = ItemDimensions
         self.initial_position = InitPos
         self.goal_position = GoalPos
 
-        self.maxSteps = 20 # Maximum steps before the episode stops
+        self.maxSteps = 30 # Maximum steps before the episode stops
         self.steps = 0
         
 
@@ -52,18 +49,16 @@ class UI():
         return [float(self.current_state),]
 
     def getGoal(self):
-    	return self.goal # [float(self.goal),] 
+    	return self.goal
 
     def performAction(self, action):
         # Performs given action and changes state
         self.steps += 1
-        
 
-        # Error model
+        # Error model ::: NOT USED IN CASE3
         #modality = 0 # for remote controller there is only a single modality
         #action = self.errorModel(action, modality)
         #if action == -1: return
-
 
         self.current_state = action+1
         self.visited_states[action] = 1
@@ -73,16 +68,15 @@ class UI():
             self.goal = True
 
     def errorModel(self, action, modality):
-        # TODO: Does not work
         # User's error
         if random.uniform(0,1) < 0.04:
             return -1
 
-        # Recognition error: Not recognized
+        # Recognition error: Input not recognized
         if random.uniform(0,1) < self.sensor_errors[modality]: 
             return -1
 
-        # Confusion error  # TODO: Not working, fix
+        # Confusion error: Confuses actions within the same modality.
         if random.uniform(0,1) < self.confusion_error[modality]:
             action_list = copy.deepcopy(self.mods[self.current_state])
             action_list.remove(float(action)) # Remove original action from the list
@@ -101,9 +95,7 @@ class UI():
 
     def getPenalty(self, action, prev_action):
         # Compute penalty
-
         penalty = 0
-        
 
         if int(self.used_actions[action]) > 1: # Uses same action more than once. Should not be possible
             return 15
@@ -133,7 +125,7 @@ class UI():
             width = self.dimensions[1]
 
 
-        #Fitts' Law
+        #Fitts' Law ID value
         penalty += math.log((2.*distance/width), 2)
         penalty += self.sys_delay
 
@@ -141,10 +133,7 @@ class UI():
 
 
 class UITask():
-    #: Discount factor
     discount = True
-    batchSize = 1
-    
 
     def __init__(self, environment):
         """ All tasks are coupled to an environment. """
@@ -176,7 +165,8 @@ class UITask():
         if self.samples >= self.env.maxSteps: 
             return True
 
-        if np.sum(self.env.visited_states) == self.env.num_of_actions: # action list is empty
+        # action list is empty
+        if np.sum(self.env.visited_states) == self.env.num_of_actions: 
             return True
 
         if self.env.goal:
@@ -195,10 +185,7 @@ class UITask():
         return reward
    
     def addReward(self):
-        # Is this even needed?
         if self.env.current_state == -1: return
-        """ A filtered mapping towards performAction of the underlying environment. """
-        # by default, the cumulative reward is just the sum over the episode
 
         discount_value = 0.9
         if self.discount:
