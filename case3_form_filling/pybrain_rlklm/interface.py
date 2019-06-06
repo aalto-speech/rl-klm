@@ -1,5 +1,5 @@
 __author__ = 'Thomas Rueckstiess, ruecksti@in.tum.de'
-# EDITED: Checks allowed actions before selecting action.
+# MODIFIED by Katri Leino:: Checks allowed actions before selecting action.
 
 from pybrain.utilities import abstractMethod
 from pybrain.structure.modules import Table, Module, TanhLayer, LinearLayer, BiasUnit

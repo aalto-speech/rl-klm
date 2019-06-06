@@ -1,3 +1,6 @@
+__author__ = "Katri Leino"
+__copyright__ = "Copyright (c) 2018, Aalto Speech Research"
+
 import pybrain
 
 import numpy as np
@@ -6,8 +9,20 @@ import math
 import copy
 
 class UI():
-
-
+    '''
+    INPUT:
+        NumStates : The number of the states
+        Actionmatrix : A list of allowed actions (states which have not yet been visited)
+        NumActions : The number of actions
+        Goal : Has goal been achieved True/False
+        SensorErrors : Sensor error percent for each modality
+        ConfusionError : Sensor error percent for each modality
+        Penalties : KLM penalties (in case 3 not needed because penalty is calculated from the distance)
+        ItemGrid : x- and y-coordinates of the items [x_coordinates, y_coordinates]
+        ItemDimensions : Dimension of items [Width, Height]
+        InitPos : User's initial position [x coordinate, y coordinate]
+        GoalPos : The last position user needs to press [x coordinate, y coordinate]
+    '''
     def __init__(self, NumStates, Actionmatrix, NumActions, Goal, SensorErrors, ConfusionError, Penalties, ItemGrid, ItemDimensions, InitPos, GoalPos):
     	self.initState = 0 
     	self.current_state = self.initState
@@ -22,7 +37,7 @@ class UI():
         self.sensor_errors = SensorErrors
         self.confusion_error = ConfusionError
         self.penalties = Penalties
-        self.sys_delay = 0
+        self.sys_delay = 0 # System delay
 
         self.grid = ItemGrid
         self.dimensions = ItemDimensions
@@ -67,6 +82,9 @@ class UI():
             self.visited_states[self.num_of_actions-1] = 0
             self.goal = True
 
+    # INPUT:
+        # action : performed action
+        # modality : modality action belongs to
     def errorModel(self, action, modality):
         # User's error
         if random.uniform(0,1) < 0.04:
@@ -132,8 +150,12 @@ class UI():
         return penalty
 
 
+# Defines the task
 class UITask():
     discount = True
+
+    # INPUT
+        # environment : UI class object. Defines the environment
 
     def __init__(self, environment):
         """ All tasks are coupled to an environment. """
@@ -165,7 +187,7 @@ class UITask():
         if self.samples >= self.env.maxSteps: 
             return True
 
-        # action list is empty
+        # action list is empty (all states have been visited)
         if np.sum(self.env.visited_states) == self.env.num_of_actions: 
             return True
 

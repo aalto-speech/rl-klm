@@ -1,18 +1,31 @@
+__author__ = "Katri Leino"
+__copyright__ = "Copyright (c) 2018, Aalto Speech Research"
+
 import pybrain
 
 from scipy import *
 import numpy as np
 import logging
-import os
 
 from UIEnv import UI, UITask
 from initialParams import initializeParams
 
 
-# KLM  Evaluation function
-#  getReward returns ID value for Fitts' law. (easy to break, always check)
-# Output: klm estimate (seconds), best path
+'''
+## Evaluation function
+Computes the KLM estimate for the policy.
 
+INPUT
+    * av_table : Policy's Q-table.
+    * ui_env : UI class object. Defines the environment
+    * task : UITask class object. Defines the task.
+    * goal : is goal achieved (True / False)
+    * params : initializeParams class object that holds KLM and environment parameters.
+
+OUTPUT
+* KLM estimate (seconds)
+# best_path : A list of states in which order they are visited.
+'''
 def evaluation(av_table, ui_env, task, goal, params):
     time_klm = 0
 
@@ -37,7 +50,7 @@ def evaluation(av_table, ui_env, task, goal, params):
         allowed_actions =  np.where(np.array(task.env.visited_states) == 0)[0]
         av_table.setAllowedActions(allowed_actions) # Set allowed actions
         
-        ID = -task.getReward()
+        ID = -task.getReward() # ID for Fitts' Law
         time_klm = time_klm + params.fitts_a + params.fitts_b*ID + 0.31*100
         current_state = ui_env.getSensors()
         task.prev_action = action

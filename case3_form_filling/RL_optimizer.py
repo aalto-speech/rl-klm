@@ -1,4 +1,7 @@
-# Trains RL agent and evaluated the form. 
+__author__ = "Katri Leino"
+__copyright__ = "Copyright (c) 2018, Aalto Speech Research"
+
+# Trains RL agent and evaluates the form. 
 # Returns best path and the KLM estimate.
 
 import pybrain
@@ -16,7 +19,16 @@ from pybrain_rlklm.interface import ActionValueTable
 from pybrain_rlklm.q import Q
 
 
-def rl_optimizer(UImatrix, num_of_actions, params):
+''' 
+INPUT:
+    * num_of_actions : Number of form items (states) which can be visited.
+    * params : initializeParams class object that holds KLM and environment parameters.
+
+RETURNS:
+    * best_path : A list of states in which order they are visited.
+    * klm_avg : KLM estimate in average.
+'''
+def rl_optimizer(num_of_actions, params):
 
     # Defining UI environment
     actionmatrix = range(num_of_actions)
@@ -28,19 +40,18 @@ def rl_optimizer(UImatrix, num_of_actions, params):
     # Train agent for each goal
     klm_tot = 0
     klm_avg = 0
-    policies = []
-    p_learned = 1 # policy learned
+    p_learned = 1
 
 
     ##############################################
     # Define Q-learning agent
-    learner = Q(0.5, 0.99) #Q(0.6, 0.99) # 0.5, 0.99
-    learner.explorer.epsilon = 0.7 # 0.7 # 0.9
-    learner.explorer.decay = 0.999 # 0.99
+    learner = Q(0.5, 0.99) 
+    learner.explorer.epsilon = 0.7 
+    learner.explorer.decay = 0.999
     learner.explorer.env = ui_env
     agent = LearningAgent(av_table, learner)
 
-    #Initialize av table. Give action matric as input
+    #Initialize av table. Give action matrix as an input.
     av_table.initialize(-5., actionmatrix) 
 
     # Define task and experiment
@@ -56,11 +67,6 @@ def rl_optimizer(UImatrix, num_of_actions, params):
         
         agent.learn()
         agent.reset()
-
-        ##############################################
-        # Save policy for optimization (not in use for case3)
-        p = list(av_table.params) # Copies to new memory slot
-        policies.append(p)
 
 
     ##############################################

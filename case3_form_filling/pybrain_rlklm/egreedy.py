@@ -1,5 +1,5 @@
 __author__ = "Thomas Rueckstiess, ruecksti@in.tum.de"
-# EDITED: Only select allowed actions in exploration.
+# MODIFIED by Katri Leino: Only select allowed actions in exploration.
 
 from scipy import random, array
 import numpy as np

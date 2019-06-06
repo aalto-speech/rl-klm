@@ -1,32 +1,39 @@
+__author__ = "Katri Leino"
+__copyright__ = "Copyright (c) 2018, Aalto Speech Research"
 
 import time
 import numpy as np
 
-# Class is used to keep KLM parameters.
+# Class is used to keep KLM and environment (UI) parameters.
+# Todo: Add widths and heights parameters to the fitts' law.
 class initializeParams:
+    '''
+    INPUT:
+    x_coord : array of x coordinates of the form items
+    y_coord : array of y coordinates of the form items
+    widths : array of widths of the form items
+    heights : array of heights of the form items
+    '''
 
     def __init__(self, x_coord, y_coord, widths, heights):
-        self.batch_number = 1
+        
         self.timestr = time.strftime("%Y%m%d-%H%M%S")
 
         # UI parameters
         self.num_states = np.size(x_coord)
         self.num_of_mods = 1
 
-        self.start = 1
-        self.end = 1 
-        self.random_search = False
-        self.random_search_iters = 5
-
         # KLM estiamtes depend on the distance of previous and current item.
-        self.penalties = np.array([2]) # distance between items
-        self.widths = np.array([40]*self.num_states) # Width of the item
+        self.penalties = np.array([-1]) # Not used in case 3
+        self.widths = np.array([40]*self.num_states) # Width of each item
         self.dimensions = [200, 40] # Width, Height
-        self.init_position = [x_coord[0], y_coord[0]]
-        self.goal_position = [x_coord[self.num_states-1], y_coord[self.num_states-1]]
-        self.grid = [x_coord[1:self.num_states], y_coord[1:self.num_states]] # 
-        self.fitts_a = 54.38 #1033 #54.38
-        self.fitts_b = 14.62 #96 #14.62
+        self.init_position = [x_coord[0], y_coord[0]] # User's initial position
+        self.goal_position = [x_coord[self.num_states-1], y_coord[self.num_states-1]] # The last position user needs to press
+        self.grid = [x_coord[1:self.num_states], y_coord[1:self.num_states]] 
+
+        # Fitts' Law parameters
+        self.fitts_a = 54.38 
+        self.fitts_b = 14.62 
 
         # Sensor errors 
         self.sensor_errors = [0, 0, 0] # Only single modality, hard coded into perform_action()
@@ -38,8 +45,14 @@ class initializeParams:
         # Initial penalty for moving hand to control the remote
         self.mod_penalty = 0
 
+
         #############
         # Optimization
+        self.batch_number = 1
+        self.start = 1
+        self.end = 1 
+        self.random_search = False
+        self.random_search_iters = 5
 
         # The number of best UIs that will be saved into text file after the optimization
         self.top = 1

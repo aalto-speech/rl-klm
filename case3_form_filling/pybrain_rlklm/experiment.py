@@ -1,6 +1,6 @@
 __author__ = 'Tom Schaul, tom@idsia.ch'
 import numpy as np
-# EDITED: Removing used actions
+# MODIFIED by Katri Leino:: Removing used actions
 
 
 class Experiment(object):
