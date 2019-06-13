@@ -32,3 +32,4 @@ Define transition matrix for each modality. The transition matrix T element stat
 - ```print_output``` : Writes more detailes about the policies for each task.
 
 ## PyBrain library modifications
+Modified PyBrain files are located in ```pybrain_rlklm``` directory.
