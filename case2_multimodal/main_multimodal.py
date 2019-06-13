@@ -9,7 +9,7 @@ The output is the average KLM estimate over all tasks. The average can be weight
 
 In this case there is 3 modalities: tactile, gestures and speech. Each modality has a unique command to transit to each state.
 
-It is possible to model a sensor error where the command is not recognized correctly. There are tree types of errors
+It is possible to model a sensor error where the command is not recognized correctly. There are three types of errors
     * Recognition error = Command is not recognized (system does nothing)
     * Confusion error = Command is recognized as another command within the same modality.
     * User error = Error caused by the user. 
@@ -28,13 +28,13 @@ from print_output import print_output, save_summary
 ##########################################
 ## Optimization
 # Running parallel -- IF NOT USED : batch_tot=1
-batch_num = str(sys.argv[1])
-batch_tot = str(sys.argv[2])
+batch_num = str(sys.argv[0])
+batch_tot = str(sys.argv[1])
 
 ## Defining Parameters
 params = initializeParams(batch_num)
 # Set sensor errors from arguments if other than initialized ones
-#params.setSensorErrors(sys.argv[3], sys.argv[4], sys.argv[5])
+#params.setSensorErrors(sys.argv[2], sys.argv[3], sys.argv[4])
 
 # Splitting UIs into batches if parallel running is used.
 n_start, n_end = splitUI(batch_num, batch_tot, params)
@@ -45,14 +45,9 @@ policies = [([])]*params.num_states
 # For saving toplist
 objective = -1
 top_UI = params.top*[] #([([],[],policies,100)])*params.top
-top_UI_summary = [] # []*params.top #np.zeros((params.top,3))
-multi_obj_topUI = [[],[],[]]
-
 
 
 ##########################################
-# Generating transition matrices
-# Write to file only once in each outer iteration (balance between RAM and disk IO)
 for i in range(n_start,n_end+1):
 
     # Define UI matrix for each modality
