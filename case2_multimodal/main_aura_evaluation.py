@@ -101,16 +101,16 @@ for i in range(n_start,n_end+1):
     modality_table_total = np.array([0,0,0])
     klm_total=0
 
-    # If sensor errors are used the umber of iterations should be more than 1 to average the effect of errors.
-    num_iters = 20
+    # If sensor errors are used the number of iterations should be more than 1 to average the effect of errors.
+    num_iters = 5
 
     for j in range(num_iters):
         objective, top_UI, best_actions, modality_table, klm = rl_optimizer(UIs, actionmatrix, actions_in_uis, actions_penalty, num_buttons, top_UI, params)
 
         # If not policy not learned. Only used in optimization.
-        if objective == -1:
-            print "skip"
-            continue
+        #if objective == -1:
+        #    print "skip"
+        #    continue
 
         print modality_table
         modality_table_total += modality_table

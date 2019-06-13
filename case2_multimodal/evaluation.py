@@ -6,6 +6,7 @@ import pybrain
 from scipy import *
 import numpy as np
 import logging
+import os
 
 from UIEnv import UI, UITask
 from initialParams import initializeParams
