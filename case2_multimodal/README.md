@@ -17,12 +17,12 @@ The output is the average KLM estimate over all tasks. The average can be weight
 See more information from the paper.
 
 # Code Structure
-Run ```./run_evaluation.sh experiment_name```.
-
-Experiment results are written to ```experiments/experiment_name``` directory.
+Run ```python main_multimodal.py```.
 
 ## Input and Output
 Define transition matrix for each modality in ```main_multimodal.py```. The transition matrix element indicates the command which causes the transition from s_{current_state} to s_{next_state}. 
+
+Prints to terminal the average KLM estimate and the times agent used the modalities.
 
 ## Codes
 - ```initialParams.py``` : Defines the KLM parameters and sensor errors.
@@ -31,7 +31,6 @@ Define transition matrix for each modality in ```main_multimodal.py```. The tran
 - ```RL_optimizer.py``` : Defines RL parameters and trains the RL agent for the task.
 - ```UIEnv.py``` : Defines the environment and actions.
 - ```evaluation.py``` : Returns the KLM estimate based on the given policy.
-- ```print_output``` : Writes more detailes about the policies for each task.
 
 ## PyBrain library modifications
 Modified PyBrain files are located in ```pybrain_rlklm``` directory.
