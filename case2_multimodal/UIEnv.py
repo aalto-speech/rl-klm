@@ -8,8 +8,17 @@ from scipy import *
 
 class UI():
 
+    '''
+    INPUT:
+        * UImatrix : UI matrices for each modality.
+        * Actionmatrix : Allowed actions in each state.
+        * Actions_in_UIs : Allowed action in each UI.
+        * Actions_Penalty : Penalty index for each action. The penalty values in params.penalties.
+        * Goal : Goal state.
+        * params : Class holds KLM and environment parameters
+    '''
 
-    def __init__(self, Environment, Actionmatrix, Actions_in_UIs, Actions_Penalty, Goal, SensorErrors, ConfusionError, Penalties):
+    def __init__(self, Environment, Actionmatrix, Actions_in_UIs, Actions_Penalty, Goal, params):
     	self.initState = 0 
     	self.current_state = self.initState
         self.env = Environment
@@ -19,9 +28,9 @@ class UI():
         self.num_of_actions = np.max(Actions_in_UIs)
         self.actions_penalty = Actions_Penalty
         self.goal = Goal
-        self.sensor_errors = SensorErrors
-        self.confusion_error = ConfusionError
-        self.penalties = Penalties
+        self.sensor_errors = params.sensor_errors
+        self.confusion_error = params.confusion_error
+        self.penalties = params.penalties
         self.ui_index = np.nonzero(self.env)
         self.bad_Action = 0
         self.sys_delay = 0
@@ -30,7 +39,6 @@ class UI():
         self.maxSteps = 20
         self.steps = 0
         
-
 
     def setGoal(self, Goal):
         self.goal = int(Goal)
@@ -73,7 +81,7 @@ class UI():
 
 
         # Error model
-        modality = ui_idx # for remote controller there is only a single modality
+        modality = ui_idx
         action = self.errorModel(action, modality)
         if action == -1: return
 

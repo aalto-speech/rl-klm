@@ -26,29 +26,22 @@ INPUT:
     * actions_in_uis : Allowed action in each UI.
     * actions_penalty : Penalty index for each action. The penalty values in params.penalties-
     * num_of_actions : Number of unique commands.
-    * top_UI : Saves best UI's. Only for optimization.
     * params : initializeParams class object that holds KLM and environment parameters.
 
 RETURNS:
-    * top_UI : For optimization. Saves the best UIs.
-    * objective : Objective value for optimization
-    * best_actions :
     * modality_table_total : list indicates how many time each of modalities were used in the learned policy. [tactile, gesture, speech]
     * klm_total : The average task completion time
 '''
-def rl_optimizer(UImatrix, actionmatrix, actions_in_uis, actions_penalty, num_of_actions, top_UI, params):
+def rl_optimizer(UImatrix, actionmatrix, actions_in_uis, actions_penalty, num_of_actions, params):
     policies = [([])]*params.num_states
 
     # Defining UI environment
     goal = 1 # Default goal
-    ui_env = UI(UImatrix, actionmatrix, actions_in_uis, actions_penalty, goal, params.sensor_errors, params.confusion_error, params.penalties)
+    ui_env = UI(UImatrix, actionmatrix, actions_in_uis, actions_penalty, goal, params)
     av_table = ActionValueTable(params.num_states, num_of_actions)
 
     klm_tot = 0 
     klm_avg = 0
-    policies = []
-    best_actions = []
-    objective = -1
     p_learned = 1
     modality_table_total = np.array([0,0,0])
     klm_total = 0
@@ -74,7 +67,6 @@ def rl_optimizer(UImatrix, actionmatrix, actions_in_uis, actions_penalty, num_of
         # Set goal
         experiment.task.env.setGoal(g)
 
-        train_reward=[]
         for j in range(50):
 
             initial_state = mod(j, ui_env.num_of_states)
@@ -86,12 +78,6 @@ def rl_optimizer(UImatrix, actionmatrix, actions_in_uis, actions_penalty, num_of
 
             agent.learn()
             agent.reset()
-            
-        ##############################################
-        ## Optimization
-        # Save policy
-        p = list(av_table.params) # Copies to new memory slot
-        policies.append(p)
 
 
         ##############################################
@@ -120,16 +106,7 @@ def rl_optimizer(UImatrix, actionmatrix, actions_in_uis, actions_penalty, num_of
 
         if p_learned == 0: break
 
-        ######### Get best actions from policy for logging
-        best_actions_in_state = []
-        for s in range(0, ui_env.num_of_states):
-            if s != g: 
-                best_actions_in_state.append(av_table.getMaxAction(s))
-        best_actions.append(best_actions_in_state)
 
-
-
-
-    return top_UI, objective, best_actions, modality_table_total, klm_total
+    return modality_table_total, klm_total
 
 
