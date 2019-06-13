@@ -5,7 +5,7 @@ __copyright__ = "Copyright (c) 2018, Aalto Speech Research"
 ## Case2: Multimodal smart alarm
 
 The task space is defined as to visit all states starting from the all states.
-The output is the average KLM estimate over all tasks. The average can be weighted with state propabilities where the more probable goal states are given higher weights.
+The output is the average KLM estimate over all tasks. 
 
 In this case there is 3 modalities: tactile, gestures and speech. Each modality has a unique command to transit to each state.
 
@@ -82,15 +82,15 @@ num_iters = 5
 for j in range(num_iters):
     modality_table, klm = rl_optimizer(UIs, actionmatrix, actions_in_uis, actions_penalty, num_commands, params)
 
-
-    print modality_table
     modality_table_total += modality_table
 
     # KLM estimates
     klm_total += klm
 
 
-print modality_table_total
+print "Tactile commands used ", modality_table_total[0], "times."
+print "Gesture commands used ", modality_table_total[1], "times."
+print "Speech commands used ", modality_table_total[2], "times."
 
 # Average KLM estimate over all iterations
 print "KLM estimate:", klm_total/num_iters
