@@ -36,7 +36,7 @@ params = initializeParams(batch_num)
 # Set sensor errors from arguments if other than initialized ones
 #params.setSensorErrors(sys.argv[2], sys.argv[3], sys.argv[4])
 
-# Splitting UIs into batches if parallel running is used.
+# Splitting UIs into batches if parallel running is used. 
 n_start, n_end = splitUI(batch_num, batch_tot, params)
 
 # Saving policy
@@ -50,7 +50,7 @@ top_UI = params.top*[] #([([],[],policies,100)])*params.top
 ##########################################
 for i in range(n_start,n_end+1):
 
-    # Define UI matrix for each modality
+    # Define transition matrix for each modality
 
     # Tactile
     UI1 = np.array([[0,2,3,4,], 
@@ -87,7 +87,7 @@ for i in range(n_start,n_end+1):
     actions_penalty = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
 
     print "Sensor errors", params.sensor_errors
-    print "Sonfusion errors", params.confusion_error
+    print "Confusion errors", params.confusion_error
 
     
     #############################

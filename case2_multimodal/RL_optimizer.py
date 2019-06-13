@@ -30,7 +30,11 @@ INPUT:
     * params : initializeParams class object that holds KLM and environment parameters.
 
 RETURNS:
-    * 
+    * top_UI : For optimization. Saves the best UIs.
+    * objective : Objective value for optimization
+    * best_actions :
+    * modality_table_total : list indicates how many time each of modalities were used in the learned policy. [tactile, gesture, speech]
+    * klm_total : The average task completion time
 '''
 def rl_optimizer(UImatrix, actionmatrix, actions_in_uis, actions_penalty, num_of_actions, top_UI, params):
     policies = [([])]*params.num_states
@@ -39,9 +43,7 @@ def rl_optimizer(UImatrix, actionmatrix, actions_in_uis, actions_penalty, num_of
     goal = 1 # Default goal
     ui_env = UI(UImatrix, actionmatrix, actions_in_uis, actions_penalty, goal, params.sensor_errors, params.confusion_error, params.penalties)
     av_table = ActionValueTable(params.num_states, num_of_actions)
-    #av_table.initialize(1)
 
-    # Train agent for each goal
     klm_tot = 0 
     klm_avg = 0
     policies = []
@@ -50,6 +52,8 @@ def rl_optimizer(UImatrix, actionmatrix, actions_in_uis, actions_penalty, num_of
     p_learned = 1
     modality_table_total = np.array([0,0,0])
     klm_total = 0
+
+    # Train agent for each goal
     for g in range(0, ui_env.num_of_states):
 
         ##############################################
@@ -67,18 +71,17 @@ def rl_optimizer(UImatrix, actionmatrix, actions_in_uis, actions_penalty, num_of
         # Initialze av table. Removes not allowed actions.
         av_table.initialize(1., actionmatrix) 
 
-
         # Set goal
         experiment.task.env.setGoal(g)
 
         train_reward=[]
-        for j in range(50): # 10, 20 
+        for j in range(50):
 
             initial_state = mod(j, ui_env.num_of_states)
             if initial_state == g: continue
             experiment.task.env.setInitialState(initial_state)
     
-            runs = 50 #15
+            runs = 50
             experiment.doEpisodes(runs) 
 
             agent.learn()
@@ -91,28 +94,25 @@ def rl_optimizer(UImatrix, actionmatrix, actions_in_uis, actions_penalty, num_of
         policies.append(p)
 
 
-
         ##############################################
-        # Evaluation of UI and policy for current goal
-        # Loop to get average : use only if errors used
-        klm_tasks_tot = np.array([0.]*(params.num_states-1))
-        total_iterations = 1
+        # Evaluation of UI and policy for the current goal
+        # Iterate to get average - use only if errors used
+        total_iterations = 10
         klm_tot = 0
         for i in range(total_iterations):
             # KLM value
             klm_g, modality_table = evaluation(av_table, ui_env, g, params)
-            if klm_g == -1: # Not learned
+            
+            # Not learned
+            if klm_g == -1: 
                 klm_tot += 20*5
                 p_learned = 0
-                break
+                return -1, 0,0,0,0
 
             # Save to total KLM
             klm_tot += klm_g/(params.num_states-1)
-            #klm_tasks_tot += klm_tasks
-        if klm_g == -1:
-            return -1, 0,0,0,0
+            
 
-        #klm_avg += params.state_probs[g]*klm_tot/total_iterations
         klm_avg += klm_tot/total_iterations
 
         modality_table_total += np.array(modality_table)
