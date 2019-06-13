@@ -17,11 +17,12 @@ The output is the average KLM estimate over all tasks. The average can be weight
 See more information from the paper.
 
 # Code Structure
-Run ```./run_evaluation.sh experiment_name```
+Run ```./run_evaluation.sh experiment_name```.
+
 Experiment results are written to ```experiments/experiment_name``` directory.
 
 ## Input and Output
-Define transition matrix for each modality. The transition matrix T element states the command which causes the transition from s_{current_state} to s_{next_state}. E.g. Transition from state 0 to state 3 is caused by the command in T[0,3].
+Define transition matrix for each modality in ```main_multimodal.py```. The transition matrix element indicates the command which causes the transition from s_{current_state} to s_{next_state}. 
 
 ## Codes
 - ```initialParams.py``` : Defines the KLM parameters and sensor errors.
