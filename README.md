@@ -20,7 +20,6 @@ See README files in each directory for more information.
 # Coming in Summer 2019.
 * Documented codes for all experiments in the paper "RL-KLM: Automating Keystroke-level Modeling with Reinforcement Learning" url: http://doi.org/10.1145/3301275.3302285.
   * Evaluating remote controller
-  * Evaluating multimodal user interface: Documentation
   * Optimizing remote controller
   * Updating to Python3
 
