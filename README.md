@@ -17,11 +17,12 @@ RL-KLM demo evaluates form templates and is located in demo directory. Please re
 * Case 1: Computing the average KLM estimate for tactile remote controller with alternative commands.
 * Case2: Computing the average KLM estimate for a multimodal smart alarm and reporting which modalities were used.
 * Case3: Computing KLM for a form and reporting the best path between form items.
+* Optimization: Optimizing simple remote controller.
 
 See README files in each directory for more information.
 
-# Coming in Summer 2019.
- * Optimizing remote controller
+# Coming in Fall 2019.
+ * Optimization README
  * Updating to Python3
 
 Contact: Katri Leino ( katri.k.leino a aalto.fi )
