@@ -24,7 +24,7 @@ INPUT:
     * UImatrix : UI matrices for each modality.
     * actionmatrix : Allowed actions in each state.
     * actions_in_uis : Allowed action in each UI.
-    * actions_penalty : Penalty index for each action. The penalty values in params.penalties-
+    * actions_penalty : Penalty index for each action. The penalty values in params.penalties.
     * num_of_actions : Number of unique commands.
     * params : initializeParams class object that holds KLM and environment parameters.
 

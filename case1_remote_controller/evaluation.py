@@ -8,7 +8,6 @@ import numpy as np
 import logging
 
 from UIEnv import UI, UITask
-from initialParams import initializeParams
 
 # Error log
 logging.basicConfig(filename='error.log',level=logging.DEBUG)
