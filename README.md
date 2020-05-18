@@ -21,8 +21,4 @@ RL-KLM demo evaluates form templates and is located in demo directory. Please re
 
 See README files in each directory for more information.
 
-# Coming in Fall 2019.
- * Optimization README
- * Updating to Python3
-
 Contact: Katri Leino ( katri.k.leino a aalto.fi )
